@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Somali Geography Quiz - By Jamaal Ahmed Abdikariin</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #e6f2ff, #ffffff);
+      color: #333;
+      text-align: center;
+      padding: 30px 15px;
+      margin: 0;
+    }
+    h1 {
+      color: #004080;
+    }
+    .question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .choice {
+      display: block;
+      margin: 8px auto;
+      padding: 12px 18px;
+      width: 90%;
+      max-width: 300px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .choice:hover {
+      background-color: #0056b3;
+    }
+    .correct {
+      background-color: #28a745 !important;
+    }
+    .wrong {
+      background-color: #dc3545 !important;
+    }
+    #result {
+      font-size: 16px;
+      margin-top: 15px;
+    }
+    #score {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #shareBtn {
+      display: none;
+      margin-top: 20px;
+      background: #4267B2;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    #footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #777;
+    }
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Caqabadda Juquraafiyeed ee Soomaalida</h1>
+  <div class="question" id="question">Su'aal ayaa halkan ka muuqan doonta</div>
+  <div id="choices"></div>
+  <p id="result"></p>
+  <p id="score">Dhibcaha: 0</p>
+
+  <a id="shareBtn" href="#" target="_blank">➤ Share Challenge-ka Facebook!</a>
+
+  <div id="footer">Waxaa diyaariyay: <strong>Jamaal Ahmed Abdikariin</strong></div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Waa maxay caasimadda gobolka Togdheer?",
+        choices: ["Burco", "Buuhoodle", "Caynaba", "Berbera"],
+        correct: 0
+      },
+      {
+        question: "Waa maxay caasimadda deegaanka Soomaalida ee Itoobiya?",
+        choices: ["Jigjiga", "Godey", "Qabridahare", "Dhagaxbuur"],
+        correct: 0
+      },
+      {
+        question: "Waa maxay caasimadda Jabuuti?",
+        choices: ["Obock", "Tadjoura", "Ali Sabieh", "Jabuuti"],
+        correct: 3
+      },
+      {
+        question: "Waa maxay magaalada ugu weyn ee NFD (Northern Frontier District)?",
+        choices: ["Mandera", "Garissa", "Wajir", "Isiolo"],
+        correct: 1
+      },
+      {
+        question: "Waa kee gobolka leh xeebta ugu dheer Soomaaliya?",
+        choices: ["Banaadir", "Mudug", "Lower Juba", "Bari"],
+        correct: 3
+      },
+      {
+        question: "Webiga ugu dheer Soomaaliya waa:",
+        choices: ["Webi Jubba", "Shabeelle", "Tana", "Dawa"],
+        correct: 1
+      },
+      {
+        question: "Gobolkee ayuu ku yaal magaalada taariikhiga ah ee Laasqoray?",
+        choices: ["Sanaag", "Bari", "Sool", "Togdheer"],
+        correct: 0
+      },
+      {
+        question: "Waa kee gobolka leh harooyinka ugu waaweyn Soomaaliya?",
+        choices: ["Gedo", "Bay", "Hiiraan", "Shabeellaha Hoose"],
+        correct: 3
+      },
+      {
+        question: "Dekedda ugu weyn Soomaaliya waxay ku taallaa:",
+        choices: ["Berbera", "Kismaayo", "Mogadishu", "Bosaso"],
+        correct: 2
+      },
+      {
+        question: "Waa maxay gobolka ugu dad badan DDSI?",
+        choices: ["Jigjiga", "Godey", "Qabridahare", "Fiiq"],
+        correct: 0
+      },
+      {
+        question: "Waa kee gobolka leh xadka ugu dheer ee la leh Itoobiya?",
+        choices: ["Gedo", "Galgaduud", "Hiiraan", "Bakool"],
+        correct: 1
+      },
+      {
+        question: "Waa maxay gobolka ugu weyn Soomaaliya dhul ahaan?",
+        choices: ["Bari", "Nugaal", "Sool", "Mudug"],
+        correct: 0
+      },
+      {
+        question: "Waa kee gobolka leh xeebaha ugu badan marka la tiriyo magaalo xeebeedyada?",
+        choices: ["Bari", "Shabeellaha Hoose", "Lower Juba", "Banadir"],
+        correct: 2
+      },
+      {
+        question: "Waa kee magaalada ugu taariikhda dheer xeebaha Soomaaliya?",
+        choices: ["Mogadishu", "Zeylac", "Kismayo", "Berbera"],
+        correct: 1
+      },
+      {
+        question: "Waa maxay gobolka ku yaal Haro Abbe ee Jabuuti?",
+        choices: ["Tadjoura", "Ali Sabieh", "Obock", "Dikhil"],
+        correct: 3
+      },
+      {
+        question: "Webiga Dawa wuxuu xuduud u yahay:",
+        choices: ["Soomaaliya iyo Itoobiya", "Soomaaliya iyo Jabuuti", "Kenya iyo Soomaaliya", "Jabuuti iyo Itoobiya"],
+        correct: 2
+      },
+      {
+        question: "Waa kee gobolka la deriska ah Itoobiya, Jabuuti iyo Somaliland?",
+        choices: ["Awdal", "Sanaag", "Togdheer", "Sool"],
+        correct: 0
+      },
+      {
+        question: "Caasimada gobolka Shabeellaha Dhexe waa:",
+        choices: ["Jowhar", "Balcad", "Mahaday", "Warsheekh"],
+        correct: 0
+      },
+      {
+        question: "Qabridahare waxay ku taallaa deegaanka:",
+        choices: ["Fafan", "Nogob", "Jarar", "Shabelle"],
+        correct: 2
+      },
+      {
+        question: "Waa kee gobolka ugu taariikhda badan ee NFD?",
+        choices: ["Garissa", "Mandera", "Wajir", "Isiolo"],
+        correct: 0
+      },
+      {
+        question: "Waa kee magaalada ku taal meel u dhow badda iyo webi?",
+        choices: ["Jilib", "Kismayo", "Baraawe", "Jowhar"],
+        correct: 1
+      },
+      {
+        question: "Xadka ugu dheer ee badda Soomaaliya wuxuu ka bilaabmaa:",
+        choices: ["Djibouti ilaa Kismayo", "Zeylac ilaa Ras Kamboni", "Berbera ilaa Mogadishu", "Kismayo ilaa Hobyo"],
+        correct: 1
+      },
+      {
+        question: "Waa maxay gobolka ku yaalla magaalada Ceerigaabo?",
+        choices: ["Sanaag", "Togdheer", "Sool", "Nugaal"],
+        correct: 0
+      },
+      {
+        question: "Degmada Dhobley waxay ka tirsan tahay:",
+        choices: ["Gedo", "Jubbada Hoose", "Bari", "Bay"],
+        correct: 1
+      },
+      {
+        question: "Magaalada Bosaso waxay caan ku tahay:",
+        choices: ["Dhoofinta xoolaha", "Kalluumeysiga", "Deked weyn", "Dhamaan jawaabaha kor ku xusan"],
+        correct: 3
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function showQuestion() {
+      document.getElementById("result").textContent = "";
+      const q = quizData[currentQuestion];
+      document.getElementById("question").textContent = q.question;
+      const choicesDiv = document.getElementById("choices");
+      choicesDiv.innerHTML = "";
+
+      q.choices.forEach((choice, index) => {
+        const button = document.createElement("button");
+        button.classList.add("choice");
+        button.textContent = choice;
+        button.onclick = () => checkAnswer(index, button);
+        choicesDiv.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selected, btn) {
+      const q = quizData[currentQuestion];
+      const result = document.getElementById("result");
+      const buttons = document.querySelectorAll(".choice");
+
+      buttons.forEach((b, i) => {
+        if (i === q.correct) b.classList.add("correct");
+        else b.classList.add("wrong");
+        b.disabled = true;
+      });
+
+      if (selected === q.correct) {
+        result.textContent = "Waa sax!";
+        score++;
+      } else {
+        result.textContent = `Khalad! Jawaabta saxda ah waa: ${q.choices[q.correct]}`;
+      }
+
+      document.getElementById("score").textContent = `Dhibcaha: ${score}`;
+
+      currentQuestion++;
+      setTimeout(() => {
+        if (currentQuestion < quizData.length) {
+          showQuestion();
+        } else {
+          document.getElementById("question").textContent = "Caqabaddu way dhammaatay!";
+          document.getElementById("choices").innerHTML = "";
+          result.textContent = `Dhibcahaaga ugu dambeeya: ${score}/${quizData.length}`;
+
+          const fbShare = document.getElementById("shareBtn");
+          const shareText = encodeURIComponent(`Waxaan helay ${score}/${quizData.length} ee Somali Geography Challenge! Isku day adigana:`);
+          const shareUrl = encodeURIComponent(window.location.href);
+          fbShare.href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`;
+          fbShare.style.display = "inline-block";
+        }
+      }, 2500);
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
